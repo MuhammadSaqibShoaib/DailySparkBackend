@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AtomsBackend.Models;
+using Microsoft.EntityFrameworkCore;
 
-namespace AtomsBackend.Models
+namespace AtomsBackend.Data
 {
     public class AppDbContext : DbContext
     {
