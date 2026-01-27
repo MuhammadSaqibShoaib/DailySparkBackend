@@ -2,9 +2,11 @@
 {
     public class User
     {
-        public int id { get; set; }
-        public string name { get; set; }
-        public string email { get; set; }
-        public string passwordHash { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public string PasswordHash { get; set; }
+
+        public ICollection<Habit> Habits { get; set; }
     }
 }

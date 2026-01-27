@@ -2,9 +2,12 @@
 {
     public class HabitLog
     {
-        public int id { get; set; }
-        public int habitId { get; set; }
-        public DateTime date { get; set; }
-        public bool isCompleted { get; set; }
+        public int Id { get; set; }
+
+        public int HabitId { get; set; }
+        public Habit Habit { get; set; } // navigation
+
+        public DateTime Date { get; set; }
+        public bool IsCompleted { get; set; }
     }
 }

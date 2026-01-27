@@ -2,11 +2,16 @@
 {
     public class Habit
     {
-        public int id { get; set; }
-        public string title { get; set; }
-        public string description { get; set; }
-        public int userId { get; set; }
-        public bool isActive { get; set; }
-        public DateTime createdAt { get; set; }
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+
+        public int UserId { get; set; }
+        public User User { get; set; }   // navigation
+
+        public bool IsActive { get; set; }
+        public DateTime CreatedAt { get; set; }
+
+        public ICollection<HabitLog> HabitLogs { get; set; }
     }
 }
