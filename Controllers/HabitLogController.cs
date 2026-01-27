@@ -1,12 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AtomsBackend.Controllers
 {
-    public class HabitLogController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class HabitLogController : ControllerBase
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
     }
 }

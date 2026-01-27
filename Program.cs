@@ -1,4 +1,6 @@
-using AtomsBackend.Models;
+using AtomsBackend.Data;
+using AtomsBackend.Services;
+using AtomsBackend.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +12,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(connectionString)); builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<IHabitService, HabitService>();
 
 var app = builder.Build();
 
