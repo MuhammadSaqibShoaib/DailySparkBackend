@@ -53,24 +53,14 @@ namespace AtomsBackend.Controllers
         public async Task<IActionResult> UpdateHabit(int habitId, [FromBody] UpdateHabitDto dto)
         {
 
-            try
-            {
-                var habitDto = await _habitService.UpdateHabitAsync(habitId, dto);
-                return Ok(habitDto);
-            }
-            catch (KeyNotFoundException)
-            {
-                return NotFound();
-            }
+            var habitDto = await _habitService.UpdateHabitAsync(habitId, dto);
+            return Ok(habitDto);
         }
 
         [HttpDelete("{habitId}")]
         public async Task<IActionResult> DeleteHabit(int habitId)
         {
-            var deleted = await _habitService.DeleteHabitAsync(habitId);
-
-            if (!deleted)
-                return NotFound(); // 404 if habit doesn't exist
+            await _habitService.DeleteHabitAsync(habitId);
 
             return NoContent(); // 204 → standard for successful delete
         }

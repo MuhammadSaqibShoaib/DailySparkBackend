@@ -39,15 +39,15 @@ namespace AtomsBackend.Services
             return ConvertToHabitDto(habit);
         }
 
-        public async Task<bool> DeleteHabitAsync(int habitId)
+        public async Task DeleteHabitAsync(int habitId)
         {
             var habit = await _dbContext.Habits.FindAsync(habitId);
             if (habit == null)
-                return false;
+                throw new KeyNotFoundException($"Habit with id {habitId} not found");
 
             _dbContext.Habits.Remove(habit);
             await _dbContext.SaveChangesAsync();
-            return true;
+            return;
         }
 
 

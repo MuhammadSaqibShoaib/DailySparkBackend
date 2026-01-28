@@ -10,6 +10,6 @@ namespace AtomsBackend.Services.Interfaces
         Task<IEnumerable<HabitDto>> GetHabitsByUserAsync(int userId);
         Task<HabitDto> GetHabitByIdAsync(int habitId);
         Task<HabitDto> UpdateHabitAsync(int habitId, UpdateHabitDto dto);
-        Task<bool> DeleteHabitAsync(int habitId);
+        Task DeleteHabitAsync(int habitId);
     }
 }

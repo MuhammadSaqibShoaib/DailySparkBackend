@@ -1,4 +1,5 @@
 using AtomsBackend.Data;
+using AtomsBackend.Middleware;
 using AtomsBackend.Services;
 using AtomsBackend.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -24,6 +25,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseAuthorization();
 
