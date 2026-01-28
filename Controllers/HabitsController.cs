@@ -50,7 +50,7 @@ namespace AtomsBackend.Controllers
         }
 
         [HttpPut("{habitId}")]
-        public async Task<IActionResult> UpdateHabit([Required]int habitId, [FromBody] UpdateHabitDto dto)
+        public async Task<IActionResult> UpdateHabit(int habitId, [FromBody] UpdateHabitDto dto)
         {
 
             try

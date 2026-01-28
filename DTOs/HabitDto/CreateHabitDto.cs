@@ -1,8 +1,13 @@
-﻿namespace AtomsBackend.DTOs.HabitDto
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace AtomsBackend.DTOs.HabitDto
 {
     public class CreateHabitDto
     {
-        public string? Title { get; set; }
+        [Required]
+        [MaxLength(50)]
+        public string Title { get; set; }
+        [MaxLength(250)]
         public string? Description { get; set; }
     }
 }
