@@ -2,12 +2,14 @@
 using AtomsBackend.Models;
 using AtomsBackend.Services;
 using AtomsBackend.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
 namespace AtomsBackend.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class HabitsController : ControllerBase
@@ -22,7 +24,7 @@ namespace AtomsBackend.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateHabit([FromBody] CreateHabitDto dto)
         {
-            int userId = 1;
+            int userId = int.Parse(User.Claims.First(c => c.Type == "userId").Value);
             HabitDto habitDto = await _habitService.CreateHabitAsync(userId, dto);
             return Ok(habitDto);
         }
