@@ -1,4 +1,5 @@
 ﻿using AtomsBackend.DTOs.HabitDto;
+using AtomsBackend.Extensions;
 using AtomsBackend.Models;
 using AtomsBackend.Services;
 using AtomsBackend.Services.Interfaces;
@@ -24,45 +25,42 @@ namespace AtomsBackend.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateHabit([FromBody] CreateHabitDto dto)
         {
-            int userId = int.Parse(User.Claims.First(c => c.Type == "userId").Value);
+            int userId = User.GetUserId();
             HabitDto habitDto = await _habitService.CreateHabitAsync(userId, dto);
             return Ok(habitDto);
         }
         [HttpGet]
         public async Task<IActionResult> GetAllHabits()
         {
-            IEnumerable<HabitDto> habitDtos = await _habitService.GetAllHabits();
+            int userId = User.GetUserId();
+            IEnumerable<HabitDto> habitDtos = await _habitService.GetAllHabits(userId);
             return Ok(habitDtos);
         }
         [HttpGet("{habitId}")]
         public async Task<IActionResult> GetHabitById(int habitId)
         {
-            HabitDto habitDto = await _habitService.GetHabitByIdAsync(habitId);
+            int userId = User.GetUserId();
+            HabitDto habitDto = await _habitService.GetHabitByIdAsync(habitId, userId);
 
             if (habitDto == null)
                 return NotFound();
             return Ok(habitDto);
         }
 
-        [HttpGet("user/{userId}")]
-        public async Task<IActionResult> GetHabitsByUserId(int userId)
-        {
-            IEnumerable<HabitDto> habitDtos = await _habitService.GetHabitsByUserAsync(userId);
-            return Ok(habitDtos);
-        }
 
         [HttpPut("{habitId}")]
         public async Task<IActionResult> UpdateHabit(int habitId, [FromBody] UpdateHabitDto dto)
         {
-
-            var habitDto = await _habitService.UpdateHabitAsync(habitId, dto);
+            int userId = User.GetUserId();
+            var habitDto = await _habitService.UpdateHabitAsync(habitId, userId,dto);
             return Ok(habitDto);
         }
 
         [HttpDelete("{habitId}")]
         public async Task<IActionResult> DeleteHabit(int habitId)
         {
-            await _habitService.DeleteHabitAsync(habitId);
+            int userId = User.GetUserId();
+            await _habitService.DeleteHabitAsync(habitId, userId);
 
             return NoContent(); // 204 → standard for successful delete
         }

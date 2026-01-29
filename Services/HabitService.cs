@@ -39,43 +39,34 @@ namespace AtomsBackend.Services
             return ConvertToHabitDto(habit);
         }
 
-        public async Task DeleteHabitAsync(int habitId)
+        public async Task DeleteHabitAsync(int habitId, int userId)
         {
-            var habit = await _dbContext.Habits.FindAsync(habitId);
-            if (habit == null)
-                throw new KeyNotFoundException($"Habit with id {habitId} not found");
-
+            var habit = await _dbContext.Habits
+                .FirstOrDefaultAsync(h => h.Id == habitId && h.UserId == userId)
+                ?? throw new UnauthorizedAccessException($"Habit with {habitId} not found");
             _dbContext.Habits.Remove(habit);
             await _dbContext.SaveChangesAsync();
             return;
         }
 
 
-        public async Task<IEnumerable<HabitDto>> GetAllHabits()
+        public async Task<IEnumerable<HabitDto>> GetAllHabits(int userId)
         {
-            List<Habit> habits = await _dbContext.Habits.ToListAsync();
+            List<Habit> habits = await _dbContext.Habits.Where(h=>h.UserId == userId).ToListAsync();
             return habits.Select(h => ConvertToHabitDto(h)).ToList();
         }
 
 
-        public async Task<HabitDto> GetHabitByIdAsync(int habitId)
+        public async Task<HabitDto?> GetHabitByIdAsync(int habitId, int userId)
         {
-            Habit habit = await _dbContext.Habits.FindAsync(habitId);
-            if (habit != null)
-                return ConvertToHabitDto(habit);
-            return null;
+            Habit habit = await _dbContext.Habits.FirstOrDefaultAsync(h => h.Id == habitId && h.UserId == userId) ?? throw new UnauthorizedAccessException($"Habit with {habitId} not found");
+            return ConvertToHabitDto(habit);
         }
 
-        public async Task<IEnumerable<HabitDto>> GetHabitsByUserAsync(int userId)
-        {
-            List<Habit> habits = await _dbContext.Habits.Where(h => h.UserId == userId).ToListAsync();
-            return habits.Select(h => ConvertToHabitDto(h)).ToList();
 
-        }
-
-        public async Task<HabitDto> UpdateHabitAsync(int habitId,UpdateHabitDto dto)
+        public async Task<HabitDto> UpdateHabitAsync(int habitId,int userId,UpdateHabitDto dto)
         {
-            Habit habit = await GetHabit(habitId); 
+            Habit habit = await GetHabit(habitId, userId); 
 
             if (!string.IsNullOrEmpty(dto.Title))
                 habit.Title = dto.Title;
@@ -105,9 +96,9 @@ namespace AtomsBackend.Services
             };
         }
 
-        private async Task<Habit> GetHabit(int habitId)
+        private async Task<Habit> GetHabit(int habitId, int userId)
         {
-            return await _dbContext.Habits.FindAsync(habitId)
+            return await _dbContext.Habits.FirstOrDefaultAsync(h=> h.Id == habitId && h.UserId == userId)
                         ?? throw new KeyNotFoundException($"Habit with id {habitId} not found");
         }
         #endregion

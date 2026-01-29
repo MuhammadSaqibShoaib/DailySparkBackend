@@ -6,10 +6,9 @@ namespace AtomsBackend.Services.Interfaces
     public interface IHabitService
     {
         Task<HabitDto> CreateHabitAsync(int userId, CreateHabitDto createHabitDto);
-        Task<IEnumerable<HabitDto>> GetAllHabits();
-        Task<IEnumerable<HabitDto>> GetHabitsByUserAsync(int userId);
-        Task<HabitDto> GetHabitByIdAsync(int habitId);
-        Task<HabitDto> UpdateHabitAsync(int habitId, UpdateHabitDto dto);
-        Task DeleteHabitAsync(int habitId);
+        Task<IEnumerable<HabitDto>> GetAllHabits(int userId);
+        Task<HabitDto> GetHabitByIdAsync(int habitId, int userId);
+        Task<HabitDto> UpdateHabitAsync(int habitId,int userId, UpdateHabitDto dto);
+        Task DeleteHabitAsync(int habitId, int userId);
     }
 }
